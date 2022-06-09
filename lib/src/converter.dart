@@ -60,27 +60,6 @@ String convert(
   return _postProcess(output);
 }
 
-String _escape(String input) {
-  return input
-      .replaceAllMapped(RegExp(r'^(#{1,6} )', multiLine: true),
-          (match) => '\\${match[1]}') // Escape headings
-      .replaceAllMapped(RegExp(r'^([-*_] *){3,}$', multiLine: true), (match) {
-        return match[0]!.split(match[1]!).join('\\${match[1]}');
-      })
-      .replaceAllMapped(RegExp(r'^(\W* {0,3})(\d+)\. ', multiLine: true),
-          (match) => '${match[1]}${match[2]}\\. ')
-      .replaceAllMapped(RegExp(r'^([^\\\w]*)[*+-] ', multiLine: true), (match) {
-        return match[0]!
-            .replaceAllMapped(RegExp(r'([*+-])'), (match) => '\\${match[1]}');
-      })
-      .replaceAllMapped(RegExp(r'^(\W* {0,3})> '), (match) => '${match[1]}\\> ')
-      .replaceAllMapped(RegExp(r'\*+(?![*\s\W]).+?\*+'),
-          (match) => match[0]!.replaceAll(RegExp(r'\*'), '\\*'))
-      .replaceAllMapped(RegExp(r'`+(?![`\s\W]).+?`+'),
-          (match) => match[0]!.replaceAll(RegExp(r'`'), '\\`'))
-      .replaceAllMapped(RegExp(r'[\[\]]'), (match) => '\\${match[0]}');
-}
-
 Map<String, String> _getFlankingWhitespace(Node node) {
   var result = <String, String>{};
   if (!node.isBlock) {
@@ -148,7 +127,7 @@ String _process(Node inNode) {
     if (node.nodeType == 3) {
       // Text
       var textContent = node.textContent;
-      replacement = node.isCode ? textContent : _escape(textContent);
+      replacement = textContent;
     } else if (node.nodeType == 1) {
       // Element
       replacement = _replacementForNode(node);

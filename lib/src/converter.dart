@@ -62,8 +62,6 @@ String convert(
 
 String _escape(String input) {
   return input
-      .replaceAllMapped(RegExp(r'\\(\S)'),
-          (match) => '\\\\${match[1]}') // Escape backslash escapes!
       .replaceAllMapped(RegExp(r'^(#{1,6} )', multiLine: true),
           (match) => '\\${match[1]}') // Escape headings
       .replaceAllMapped(RegExp(r'^([-*_] *){3,}$', multiLine: true), (match) {
@@ -78,8 +76,6 @@ String _escape(String input) {
       .replaceAllMapped(RegExp(r'^(\W* {0,3})> '), (match) => '${match[1]}\\> ')
       .replaceAllMapped(RegExp(r'\*+(?![*\s\W]).+?\*+'),
           (match) => match[0]!.replaceAll(RegExp(r'\*'), '\\*'))
-      .replaceAllMapped(RegExp(r'_+(?![_\s\W]).+?_+'),
-          (match) => match[0]!.replaceAll(RegExp(r'_'), '\\_'))
       .replaceAllMapped(RegExp(r'`+(?![`\s\W]).+?`+'),
           (match) => match[0]!.replaceAll(RegExp(r'`'), '\\`'))
       .replaceAllMapped(RegExp(r'[\[\]]'), (match) => '\\${match[0]}');

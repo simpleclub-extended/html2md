@@ -172,7 +172,7 @@ abstract class _CommonRules {
         .replaceAll(RegExp(r'^\n+'), '')
         .replaceAll(RegExp(r'\n+$'), '\n')
         .replaceAll(RegExp('\n', multiLine: true), '\n    ');
-    var prefix = getStyleOption('bulletListMarker') + '   ';
+    var prefix = getStyleOption('bulletListMarker') + ' ';
     if (node.parentElName == 'ol') {
       var start = -1;
       var startAttr = node.getParentAttribute('start');
